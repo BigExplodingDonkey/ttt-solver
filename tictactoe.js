@@ -54,6 +54,8 @@ function makeMove(boxNum) {
     // only toggle player if game not over
     if (!gameOver) {
         currentPlayer = currentPlayer === "O" ? "X" : "O";
+        messageBox.textContent = `⭐ ${currentPlayer}'s turn`;
+        messageBox.style.color = "rgba(82, 82, 82, 1)";
     }
 
     return true;
@@ -239,6 +241,8 @@ document.addEventListener('DOMContentLoaded', () => {
         container.style.display = "flex";
         playAsO.style.display = "none";
         playAsX.style.display = "none";
+        messageBox.textContent = `⭐ ${currentPlayer}'s turn`;
+        messageBox.style.color = "rgba(82, 82, 82, 1)";
     });
     playAsX.addEventListener('click', function() {
         computerPlayer = "X";
@@ -248,6 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
         container.style.display = "flex";
         playAsO.style.display = "none";
         playAsX.style.display = "none";
+        messageBox.textContent = `⭐ ${currentPlayer}'s turn`;
+        messageBox.style.color = "rgba(82, 82, 82, 1)";
     });
 
     const tttBoxes = document.getElementsByClassName("box");
