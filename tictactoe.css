@@ -38,6 +38,7 @@ h2 {
     font-size: 8vmin;
     color: rgb(0, 0, 0);
     background-color: rgb(82, 199, 235);
+    user-select: none;
 }
 #play-x, #play-o, #new-btn {
     padding: 1rem;
@@ -46,6 +47,7 @@ h2 {
     color: white;
     border-radius: 1rem;
     border: none;
+    user-select: none;
 }
 .button-group {
     margin-top: 1rem;
