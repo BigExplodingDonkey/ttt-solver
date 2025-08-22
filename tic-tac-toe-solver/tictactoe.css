@@ -40,8 +40,8 @@ h2 {
     background-color: rgb(82, 199, 235);
     user-select: none;
 }
-#play-x, #play-o, #new-btn {
-    padding: 1rem;
+#play-x, #play-o, #restart, #new-btn {
+    padding: 1rem 2rem;
     font-size: 1.25rem;
     background: #191913;
     color: white;
@@ -58,9 +58,10 @@ h2 {
 .box:hover {
     background-color: rgb(73, 152, 255);
 }
-#new-btn {
+#restart, #new-btn {
     display: none;
+    width: auto;
+}
+#new-btn {
     background: #18cc00;
-    color: white;
-    width: 200px;
 }
