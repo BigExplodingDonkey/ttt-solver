@@ -124,37 +124,44 @@ function resetGame() {
 
 // optimal AI move
 function getBestMove() {
-    if (gameOver) return;
+    let bestScore = -Infinity;
+    let bestMoves = [];
 
-    const computer = computerPlayer;
-    let bestScore = -Number.MAX_VALUE;
-    let move = null;
-
-    // AI move priority: center > corners > edges
-    const moveOrder = [
-        [1, 1],                   // center
-        [0, 0], [0, 2], [2, 0], [2, 2], // corners
-        [0, 1], [1, 0], [1, 2], [2, 1]  // edges
-    ];
-
-    for (const [i, j] of moveOrder) {
-        if (tttBoard[i][j] === "") {
-            tttBoard[i][j] = computer; // simulate move
-            let score = minimax(tttBoard, 0, false, computer);
-            tttBoard[i][j] = ""; // undo
-
-            if (score > bestScore) {
-                bestScore = score;
-                move = { i, j };
-            }
+    const allEmptySquares = [];
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (tttBoard[i][j] === "") allEmptySquares.push([i, j]);
         }
     }
 
-    if (move) {
-        const boxNum = move.i * 3 + move.j + 1;
-        currentPlayer = computer; // ensure move counts as computer's
-        makeMove(boxNum);
+    for (const [i, j] of allEmptySquares) {
+        tttBoard[i][j] = computerPlayer;
+        let score = minimax(tttBoard, 0, false, computerPlayer);
+        tttBoard[i][j] = "";
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestMoves = [[i, j]];
+        } else if (score === bestScore) {
+            bestMoves.push([i, j]);
+        }
     }
+
+    // tie-breaker: prefer center > corners > edges
+    const preferredOrder = [
+        [1,1],             // center
+        [0,0], [0,2], [2,0], [2,2], // corners
+        [0,1], [1,0], [1,2], [2,1]  // edges
+    ];
+
+    for (const pref of preferredOrder) {
+        for (const move of bestMoves) {
+            if (move[0] === pref[0] && move[1] === pref[1]) return move;
+        }
+    }
+
+    // fallback in case tie-breaker fails
+    return bestMoves[0];
 }
 
 // minimax algorithm
@@ -236,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     playAsO.addEventListener('click', function() {
         computerPlayer = "O";
         firstOMoveDone = false;
-        messageBox.textContent = "✅ Computer will make the best moves for O";
+        messageBox.textContent = "✅ Computer is O";
         messageBox.style.color = "rgba(82, 82, 82, 1)";
         container.style.display = "flex";
         playAsO.style.display = "none";
@@ -245,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     playAsX.addEventListener('click', function() {
         computerPlayer = "X";
         firstOMoveDone = false;
-        messageBox.textContent = "✅ Computer will make the best moves for X";
+        messageBox.textContent = "✅ Computer is X";
         messageBox.style.color = "rgba(82, 82, 82, 1)";
         container.style.display = "flex";
         playAsO.style.display = "none";
@@ -272,12 +279,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Normal user turn: user plays whenever it's NOT computerPlayer's turn
+            // normal user turn: user plays whenever it's NOT computerPlayer's turn
             if (currentPlayer !== computerPlayer) {
                 if (makeMove(parseInt(box.id))) {
                     // if it's now the computer's turn, let AI move
                     if (!gameOver && currentPlayer === computerPlayer) {
-                        getBestMove();
+                        const [i, j] = getBestMove();
+                        const boxNum = i * 3 + j + 1; // convert row/col → box id (1–9)
+                        makeMove(boxNum);
                     }
                 }
             }
@@ -288,5 +297,3 @@ document.addEventListener('DOMContentLoaded', () => {
         resetGame();
     });
 });
-
-
