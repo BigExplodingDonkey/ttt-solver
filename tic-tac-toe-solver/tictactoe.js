@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     playAsO.addEventListener('click', function() {
         computerPlayer = "O";
         firstOMoveDone = false;
-        messageBox.textContent = "✅ Computer is O";
+        messageBox.textContent = "✅ Computer will make the best plays for O";
         messageBox.style.color = "rgba(82, 82, 82, 1)";
         container.style.display = "flex";
         playAsO.style.display = "none";
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     playAsX.addEventListener('click', function() {
         computerPlayer = "X";
         firstOMoveDone = false;
-        messageBox.textContent = "✅ Computer is X";
+        messageBox.textContent = "✅ Computer will make the best plays for X";
         messageBox.style.color = "rgba(82, 82, 82, 1)";
         container.style.display = "flex";
         playAsO.style.display = "none";
@@ -297,3 +297,4 @@ document.addEventListener('DOMContentLoaded', () => {
         resetGame();
     });
 });
+
