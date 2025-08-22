@@ -124,6 +124,31 @@ function resetGame() {
 
 // optimal AI move
 function getBestMove() {
+    // special case: AI is O, O in center, X in a corner, all other spaces empty
+    if (computerPlayer === "O") {
+        const center = tttBoard[1][1];
+        if (center === "O") {
+            const corners = [
+                [0,0], [0,2], [2,0], [2,2]
+            ];
+            // find which corner X is in
+            for (const [i,j] of corners) {
+                if (tttBoard[i][j] === "X") {
+                    // count non-empty squares
+                    const nonEmpty = tttBoard.flat().filter(v => v !== "").length;
+                    // only trigger if there are exactly 2 non-empty (O in center + X in corner)
+                    if (nonEmpty === 2) {
+                        const opposite = [2-i, 2-j];
+                        if (tttBoard[opposite[0]][opposite[1]] === "") {
+                            return opposite; // place O in opposite corner
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // general logic
     let bestScore = -Infinity;
     let bestMoves = [];
 
@@ -147,11 +172,11 @@ function getBestMove() {
         }
     }
 
-    // tie-breaker: prefer center > corners > edges
+    // Tie-breaker: prefer center > corners > edges
     const preferredOrder = [
-        [1,1],             // center
-        [0,0], [0,2], [2,0], [2,2], // corners
-        [0,1], [1,0], [1,2], [2,1]  // edges
+        [1,1],             
+        [0,0], [0,2], [2,0], [2,2], 
+        [0,1], [1,0], [1,2], [2,1]  
     ];
 
     for (const pref of preferredOrder) {
@@ -160,7 +185,6 @@ function getBestMove() {
         }
     }
 
-    // fallback in case tie-breaker fails
     return bestMoves[0];
 }
 
@@ -297,4 +321,3 @@ document.addEventListener('DOMContentLoaded', () => {
         resetGame();
     });
 });
-
