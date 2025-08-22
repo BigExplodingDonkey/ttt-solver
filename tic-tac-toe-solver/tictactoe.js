@@ -241,8 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
         container.style.display = "flex";
         playAsO.style.display = "none";
         playAsX.style.display = "none";
-        messageBox.textContent = `⭐ ${currentPlayer}'s turn`;
-        messageBox.style.color = "rgba(82, 82, 82, 1)";
     });
     playAsX.addEventListener('click', function() {
         computerPlayer = "X";
@@ -252,8 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
         container.style.display = "flex";
         playAsO.style.display = "none";
         playAsX.style.display = "none";
-        messageBox.textContent = `⭐ ${currentPlayer}'s turn`;
-        messageBox.style.color = "rgba(82, 82, 82, 1)";
     });
 
     const tttBoxes = document.getElementsByClassName("box");
@@ -292,3 +288,4 @@ document.addEventListener('DOMContentLoaded', () => {
         resetGame();
     });
 });
+
