@@ -17,6 +17,7 @@
     let container;
     let messageBox;
     let newGameButton;
+    let restartButton;
 
 //------------------------------------------------------------------------
 // FUNCTIONS
@@ -88,6 +89,7 @@ function checkWinner() {
 // announce winner
 function announceWinner(symbol) {
     const newGameButton = document.getElementById("new-btn");
+    restartButton.style.display = "none";
     newGameButton.style.display = "block";
     
     gameOver = true;
@@ -105,7 +107,6 @@ function announceWinner(symbol) {
 function resetGame() {
     const tttBoxes = document.getElementsByClassName("box");
 
-    newGameButton.style.display = "none";
     for (const box of tttBoxes) {
         box.textContent = "";
     }
@@ -114,6 +115,8 @@ function resetGame() {
     playAsO.style.display = "flex";
     playAsX.style.display = "flex";
     container.style.display = "none";
+    restartButton.style.display = "none";
+    newGameButton.style.display = "none";
 
     tttBoard = [["","",""],["","",""],["","",""]];
     currentPlayer = "O";
@@ -263,6 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
     container = document.querySelector(".container");
     messageBox = document.getElementById("msg");
     newGameButton = document.getElementById("new-btn");
+    restartButton = document.getElementById("restart");
 
     playAsO.addEventListener('click', function() {
         computerPlayer = "O";
@@ -272,6 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
         container.style.display = "flex";
         playAsO.style.display = "none";
         playAsX.style.display = "none";
+        restartButton.style.display = "flex";
     });
     playAsX.addEventListener('click', function() {
         computerPlayer = "X";
@@ -281,6 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         container.style.display = "flex";
         playAsO.style.display = "none";
         playAsX.style.display = "none";
+        restartButton.style.display = "flex";
     });
 
     const tttBoxes = document.getElementsByClassName("box");
@@ -317,6 +323,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    restartButton.addEventListener('click', function() {
+        resetGame();
+    });
     newGameButton.addEventListener('click', function() {
         resetGame();
     });
